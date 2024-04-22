@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D6948384-F9D6-4ECE-B2AD-D8336333DCC7}</ProjectGuid>
+    <ProjectGuid>{D729AB25-CA78-4F27-A818-13249D8D4233}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Workers</RootNamespace>
     <AssemblyName>Workers</AssemblyName>
@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\FindRole.cs" />
+    <Compile Include="Helper\PersonDPO.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />
     <Compile Include="ViewModel\RoleViewModel.cs" />
     <Compile Include="View\WindowEmployee.xaml.cs">
@@ -85,8 +87,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Person.cs" />
-    <Compile Include="Model\Role.cs" />
+    <Compile Include="View\Model\Person.cs" />
+    <Compile Include="View\Model\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
