@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Shapes;
 using Workers.Helper;
 using Workers.Model;
 using Workers.ViewModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Workers.View
 {
@@ -23,32 +25,116 @@ namespace Workers.View
     /// </summary>
     public partial class WindowEmployee : Window
     {
+        private PersonViewModel vmPerson = new PersonViewModel();
+        private RoleViewModel vmRole;
+        private ObservableCollection<PersonDPO> personsDPO;
+        private List<Role> roles;
         public WindowEmployee()
         {
             InitializeComponent();
-            PersonViewModel vmPerson = new PersonViewModel();
-            RoleViewModel vmRole = new RoleViewModel();
-            List<Role> roles = new List<Role>();
-            foreach (Role r in vmRole.ListRole)
+            vmPerson = new PersonViewModel();
+            vmRole = new RoleViewModel();
+            roles = vmRole.ListRole.ToList();
+            // Формирование данных для отображения сотрудников с должностями
+            // на базе коллекции класса ListPerson<Person> 
+            personsDPO = new ObservableCollection<PersonDPO>();
+            foreach (var person in vmPerson.ListPerson)
             {
-                roles.Add(r);
+                PersonDPO p = new PersonDPO();
+                p = p.CopyFromPerson(person);
+                personsDPO.Add(p);
             }
-            ObservableCollection<PersonDPO> persons = new ObservableCollection<PersonDPO>();
-            FindRole finder;
-            foreach (var p in vmPerson.ListPerson)
+            lvEmployee.ItemsSource = personsDPO;
+        }
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            WindowNewEmployee wnEmployee = new WindowNewEmployee
             {
-                finder = new FindRole(p.RoleId);
-                Role rol = roles.Find(new Predicate<Role>(finder.RolePredicate));
-                persons.Add(new PersonDPO
+                Title = "Новый сотрудник",
+                Owner = this
+            };
+            // формирование кода нового собрудника
+            int maxIdPerson = vmPerson.MaxId() + 1;
+            PersonDPO per = new PersonDPO
+            {
+                Id = maxIdPerson,
+                Birthday = DateTime.Now
+            };
+            wnEmployee.DataContext = per;
+            wnEmployee.CbRole.ItemsSource = roles;
+            if (wnEmployee.ShowDialog() == true)
+            {
+                Role r = (Role)wnEmployee.CbRole.SelectedValue;
+                per.Role = r.NameRole;
+                personsDPO.Add(per);
+                // добавление нового сотрудника в коллекцию ListPerson<Person> 
+                Person p = new Person();
+                p = p.CopyFromPersonDPO(per);
+                vmPerson.ListPerson.Add(p);
+            }
+        }
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            WindowNewEmployee wnEmployee = new WindowNewEmployee
+            {
+                Title = "Редактирование данных",
+                Owner = this
+            };
+            PersonDPO perDPO = (PersonDPO)lvEmployee.SelectedValue;
+            PersonDPO tempPerDPO; // временный класс для редактирования
+            if (perDPO != null)
+            {
+                tempPerDPO = perDPO.ShallowCopy();
+                wnEmployee.DataContext = tempPerDPO;
+                wnEmployee.CbRole.ItemsSource = roles;
+                wnEmployee.CbRole.Text = tempPerDPO.Role;
+                if (wnEmployee.ShowDialog() == true)
                 {
-                    Id = p.Id,
-                    Role = rol.NameRole,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Birthday = p.Birthday
-                });
+                    // перенос данных из временного класса в класс отображения данных
+                     Role r = (Role)wnEmployee.CbRole.SelectedValue;
+                    perDPO.Role = r.NameRole;
+                    perDPO.FirstName = tempPerDPO.FirstName;
+                    perDPO.LastName = tempPerDPO.LastName;
+                    perDPO.Birthday = tempPerDPO.Birthday;
+                    lvEmployee.ItemsSource = null;
+                    lvEmployee.ItemsSource = personsDPO;
+                // перенос данных из класса отображения данных в класс Person
+                    FindPerson finder = new FindPerson(perDPO.Id);
+                    List<Person> listPerson = vmPerson.ListPerson.ToList();
+                    Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
+                    p = p.CopyFromPersonDPO(perDPO);
+                }
             }
-            lvEmployee.ItemsSource = persons;
+            else
+            {
+                MessageBox.Show("Необходимо выбрать сотрудника для редактированния",
+                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            PersonDPO person = (PersonDPO)lvEmployee.SelectedItem;
+            if (person != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Удалить данные по сотруднику: \n" + person.LastName +" "+person.FirstName,
+                "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.OK)
+                {
+                    // удаление данных в списке отображения данных
+                    personsDPO.Remove(person);
+                    // удаление данных в списке классов ListPerson<Person>
+                    Person per = new Person();
+                    per = per.CopyFromPersonDPO(person);
+                    vmPerson.ListPerson.Remove(per);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать данные по сотруднику для удаления",
+               
+                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

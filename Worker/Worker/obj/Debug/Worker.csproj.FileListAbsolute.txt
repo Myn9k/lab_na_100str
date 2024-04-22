@@ -57,3 +57,5 @@ D:\sort\repozitor\lab_na_100str\Worker\Worker\obj\Debug\Workers.exe
 D:\sort\repozitor\lab_na_100str\Worker\Worker\obj\Debug\Workers.pdb
 D:\sort\repozitor\lab_na_100str\Worker\Worker\obj\Debug\View\WindowNewRole.g.cs
 D:\sort\repozitor\lab_na_100str\Worker\Worker\obj\Debug\View\WindowNewRole.baml
+D:\sort\repozitor\lab_na_100str\Worker\Worker\obj\Debug\View\WindowNewEmployee.g.cs
+D:\sort\repozitor\lab_na_100str\Worker\Worker\obj\Debug\View\WindowNewEmployee.baml

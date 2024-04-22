@@ -28,7 +28,6 @@ namespace Workers.View
             InitializeComponent();
             lvRole.ItemsSource = vmRole.ListRole;
         }
-
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             WindowNewRole wnRole = new WindowNewRole
@@ -48,12 +47,23 @@ namespace Workers.View
                 vmRole.ListRole.Add(role);
             }
         }
-
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            Role role = (Role)lvRole.SelectedItem;
+            if (role != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Удалить данные по должности: " + role.NameRole, "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.OK)
+                {
+                    vmRole.ListRole.Remove(role);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать должность для удаления",
+                "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
-
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             WindowNewRole wnRole = new WindowNewRole
@@ -76,7 +86,7 @@ namespace Workers.View
             }
             else
             {
-                MessageBox.Show("Необходимо выбрать должность для редактированния",
+                MessageBox.Show("Необходимо выбрать должность для редактирования",
                 "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
