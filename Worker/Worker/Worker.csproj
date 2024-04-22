@@ -87,8 +87,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="View\Model\Person.cs" />
-    <Compile Include="View\Model\Role.cs" />
+    <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
