@@ -27,6 +27,8 @@ namespace Workers.View
         {
             InitializeComponent();
             lvRole.ItemsSource = vmRole.ListRole;
+            DataContext = new RoleViewModel();
+
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {

@@ -1,16 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Workers.Model;
 
 namespace Workers.ViewModel
 {
-    internal class RoleViewModel
+    public class RoleViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Role> ListRole { get; set; } = new ObservableCollection<Role>();
+        private Role selectedRole;
+        public Role SelectedRole
+        {
+            get
+            {
+                return selectedRole;
+            }
+            set
+            {
+                selectedRole = value;
+                OnPropertyChanged("SelectedRole");
+                EditRole.CanExecute(true);
+            }
+        }
+        public ObservableCollection<Role> ListRole { get; set; } = new
+       ObservableCollection<Role>();
         public RoleViewModel()
         {
             this.ListRole.Add(new Role
@@ -41,5 +58,12 @@ namespace Workers.ViewModel
             }
             return max;
         }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName]
+        string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
+

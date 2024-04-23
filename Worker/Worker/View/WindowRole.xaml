@@ -13,7 +13,7 @@
             <Button x:Name="btnDelete" Margin="10,10,5,10" Content="Удалить" Height="25" Click="btnDelete_Click"/>
         </StackPanel>
         <Label Margin="5" HorizontalAlignment="Center">Список должностей сотрудников</Label>
-        <ListView x:Name="lvRole" Background="#FFD3CDCD">
+        <ListView x:Name="lvRole" ItemsSource="{Binding ListRole}" Background="#FFD3CDCD">
             <ListView.View >
                 <GridView>
                     <GridView.Columns>

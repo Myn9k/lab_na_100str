@@ -27,7 +27,7 @@ namespace Workers.View
     {
         private PersonViewModel vmPerson = new PersonViewModel();
         private RoleViewModel vmRole;
-        private ObservableCollection<PersonDPO> personsDPO;
+        private ObservableCollection<PersonDpo> personsDPO;
         private List<Role> roles;
         public WindowEmployee()
         {
@@ -37,10 +37,10 @@ namespace Workers.View
             roles = vmRole.ListRole.ToList();
             // Формирование данных для отображения сотрудников с должностями
             // на базе коллекции класса ListPerson<Person> 
-            personsDPO = new ObservableCollection<PersonDPO>();
+            personsDPO = new ObservableCollection<PersonDpo>();
             foreach (var person in vmPerson.ListPerson)
             {
-                PersonDPO p = new PersonDPO();
+                PersonDpo p = new PersonDpo();
                 p = p.CopyFromPerson(person);
                 personsDPO.Add(p);
             }
@@ -55,7 +55,7 @@ namespace Workers.View
             };
             // формирование кода нового собрудника
             int maxIdPerson = vmPerson.MaxId() + 1;
-            PersonDPO per = new PersonDPO
+            PersonDpo per = new PersonDpo
             {
                 Id = maxIdPerson,
                 Birthday = DateTime.Now
@@ -65,7 +65,7 @@ namespace Workers.View
             if (wnEmployee.ShowDialog() == true)
             {
                 Role r = (Role)wnEmployee.CbRole.SelectedValue;
-                per.Role = r.NameRole;
+                per.RoleName = r.NameRole;
                 personsDPO.Add(per);
                 // добавление нового сотрудника в коллекцию ListPerson<Person> 
                 Person p = new Person();
@@ -80,19 +80,19 @@ namespace Workers.View
                 Title = "Редактирование данных",
                 Owner = this
             };
-            PersonDPO perDPO = (PersonDPO)lvEmployee.SelectedValue;
-            PersonDPO tempPerDPO; // временный класс для редактирования
+            PersonDpo perDPO = (PersonDpo)lvEmployee.SelectedValue;
+            PersonDpo tempPerDPO; // временный класс для редактирования
             if (perDPO != null)
             {
                 tempPerDPO = perDPO.ShallowCopy();
                 wnEmployee.DataContext = tempPerDPO;
                 wnEmployee.CbRole.ItemsSource = roles;
-                wnEmployee.CbRole.Text = tempPerDPO.Role;
+                wnEmployee.CbRole.Text = tempPerDPO.RoleName;
                 if (wnEmployee.ShowDialog() == true)
                 {
                     // перенос данных из временного класса в класс отображения данных
                      Role r = (Role)wnEmployee.CbRole.SelectedValue;
-                    perDPO.Role = r.NameRole;
+                    perDPO.RoleName = r.NameRole;
                     perDPO.FirstName = tempPerDPO.FirstName;
                     perDPO.LastName = tempPerDPO.LastName;
                     perDPO.Birthday = tempPerDPO.Birthday;
@@ -114,7 +114,7 @@ namespace Workers.View
         }
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            PersonDPO person = (PersonDPO)lvEmployee.SelectedItem;
+            PersonDpo person = (PersonDpo)lvEmployee.SelectedItem;
             if (person != null)
             {
                 MessageBoxResult result = MessageBox.Show("Удалить данные по сотруднику: \n" + person.LastName +" "+person.FirstName,
