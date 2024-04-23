@@ -56,13 +56,17 @@ namespace Workers.Helper
         }
         public PersonDpo() { }
         public PersonDpo(int id, string roleName, string firstName,
-        string lastName, DateTime birthday)
+       string lastName, DateTime birthday)
         {
             this.Id = id;
             this.RoleName = roleName;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Birthday = birthday;
+        }
+        public PersonDpo ShallowCopy()
+        {
+            return (PersonDpo)this.MemberwiseClone();
         }
         public PersonDpo CopyFromPerson(Person person)
         {
@@ -87,11 +91,8 @@ namespace Workers.Helper
             }
             return perDpo;
         }
-        public PersonDpo ShallowCopy()
-        {
-            return (PersonDpo)this.MemberwiseClone();
-        }
         public event PropertyChangedEventHandler PropertyChanged;
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName]
         string propertyName = "")
         {
@@ -99,3 +100,4 @@ namespace Workers.Helper
         }
     }
 }
+

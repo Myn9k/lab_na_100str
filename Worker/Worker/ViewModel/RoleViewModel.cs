@@ -25,7 +25,8 @@ namespace Workers.ViewModel
             set
             {
                 selectedRole = value;
-                OnPropertyChanged("SelectedRole"); 
+                OnPropertyChanged("SelectedRole");
+                EditRole.CanExecute(true);
             }
         }
         public ObservableCollection<Role> ListRole { get; set; } = new

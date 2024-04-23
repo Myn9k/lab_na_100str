@@ -31,12 +31,11 @@ namespace Workers.View
         private List<Role> roles;
         public WindowEmployee()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            DataContext = new PersonViewModel();
             vmPerson = new PersonViewModel();
             vmRole = new RoleViewModel();
-            roles = vmRole.ListRole.ToList();
-            // Формирование данных для отображения сотрудников с должностями
-            // на базе коллекции класса ListPerson<Person> 
+            roles = vmRole.ListRole.ToList(); 
             personsDPO = new ObservableCollection<PersonDpo>();
             foreach (var person in vmPerson.ListPerson)
             {
@@ -52,8 +51,7 @@ namespace Workers.View
             {
                 Title = "Новый сотрудник",
                 Owner = this
-            };
-            // формирование кода нового собрудника
+            }; 
             int maxIdPerson = vmPerson.MaxId() + 1;
             PersonDpo per = new PersonDpo
             {
@@ -66,8 +64,7 @@ namespace Workers.View
             {
                 Role r = (Role)wnEmployee.CbRole.SelectedValue;
                 per.RoleName = r.NameRole;
-                personsDPO.Add(per);
-                // добавление нового сотрудника в коллекцию ListPerson<Person> 
+                personsDPO.Add(per); 
                 Person p = new Person();
                 p = p.CopyFromPersonDPO(per);
                 vmPerson.ListPerson.Add(p);
