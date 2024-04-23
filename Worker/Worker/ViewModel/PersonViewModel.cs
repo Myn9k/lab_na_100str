@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,33 +7,26 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using JetBrains.Annotations;
-using Workers.Helper;
-using Workers.Model;
-using Workers.View;
+using Worker.Helper;
+using Worker.Model;
 
-namespace Workers.ViewModel
+namespace Worker.ViewModel
 {
-    public class PersonViewModel : INotifyPropertyChanged
+    internal class PersonViewModel : INotifyPropertyChanged
     {
-        private PersonDpo selectedPersonDpo;
-        public PersonDpo SelectedPersonDpo
+        private PersonDPO selectedPersonDpo;
+        public PersonDPO SelectedPersonDpo
         {
             get { return selectedPersonDpo; }
             set
             {
                 selectedPersonDpo = value;
                 OnPropertyChanged("SelectedPersonDpo");
+                EditPerson.CanExecute(true);
             }
         }
-        public ObservableCollection<Person> ListPerson { get; set; } =
-       new ObservableCollection<Person>();
-        public ObservableCollection<PersonDpo> ListPersonDpo
-        {
-            get;
-            set;
-        } = new ObservableCollection<PersonDpo>();
+        public ObservableCollection<Person> ListPerson { get; set; } = new ObservableCollection<Person>();
+        public ObservableCollection<PersonDPO> ListPersonDpo { get; set; } = new ObservableCollection<PersonDPO>();
         public PersonViewModel()
         {
             this.ListPerson.Add(
@@ -73,11 +67,11 @@ namespace Workers.ViewModel
             });
             ListPersonDpo = GetListPersonDpo();
         }
-        public ObservableCollection<PersonDpo> GetListPersonDpo()
+        public ObservableCollection<PersonDPO> GetListPersonDpo()
         {
             foreach (var person in ListPerson)
             {
-                PersonDpo p = new PersonDpo();
+                PersonDPO p = new PersonDPO();
                 p = p.CopyFromPerson(person);
                 ListPersonDpo.Add(p);
             }
@@ -107,9 +101,9 @@ namespace Workers.ViewModel
                     {
                         Title = "Новый сотрудник"
                     };
-                    // формирование кода нового собрудника
                     int maxIdPerson = MaxId() + 1;
-                    PersonDpo per = new PersonDpo
+
+                    PersonDPO per = new PersonDPO
                     {
                         Id = maxIdPerson,
                         Birthday = DateTime.Now
@@ -120,13 +114,11 @@ namespace Workers.ViewModel
                         Role r = (Role)wnPerson.CbRole.SelectedValue;
                         per.RoleName = r.NameRole;
                         ListPersonDpo.Add(per);
-                        // добавление нового сотрудника в коллекцию ListPerson<Person>
                         Person p = new Person();
                         p = p.CopyFromPersonDPO(per);
                         ListPerson.Add(p);
                     }
-                },
-                (obj) => true));
+                }, (obj) => true));
             }
         }
         private RelayCommand editPerson;
@@ -135,29 +127,38 @@ namespace Workers.ViewModel
             get
             {
                 return editPerson ??
+
+
+
                 (editPerson = new RelayCommand(obj =>
                 {
-                    WindowNewEmployee wnPerson = new WindowNewEmployee()
-                    {
-                        Title = "Редактирование данных сотрудника",
-                    };
-                    PersonDpo personDpo = SelectedPersonDpo;
-                    PersonDpo tempPerson = new PersonDpo();
-                    tempPerson = personDpo.ShallowCopy();
-                    wnPerson.DataContext = tempPerson;
-                    if (wnPerson.ShowDialog() == true)
-                    {
-                        Role r = (Role)wnPerson.CbRole.SelectedValue;
-                        personDpo.RoleName = r.NameRole;
-                        personDpo.FirstName = tempPerson.FirstName;
-                        personDpo.LastName = tempPerson.LastName;
-                        personDpo.Birthday = tempPerson.Birthday;
-                        FindPerson finder = new FindPerson(personDpo.Id);
 
-                        List<Person> listPerson = ListPerson.ToList();
-                        Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
-                        p = p.CopyFromPersonDPO(personDpo);
+                    try
+                    {
+                        WindowNewEmployee wnPerson = new WindowNewEmployee()
+                        {
+                            Title = "Редактирование данных сотрудника",
+                        };
+                        PersonDPO personDpo = SelectedPersonDpo;
+                        PersonDPO tempPerson = new PersonDPO();
+                        tempPerson = personDpo.ShallowCopy();
+                        wnPerson.DataContext = tempPerson;
+
+                        if (wnPerson.ShowDialog() == true)
+                        {
+                            Role r = (Role)wnPerson.CbRole.SelectedValue;
+                            personDpo.RoleName = r.NameRole;
+                            personDpo.FirstName = tempPerson.FirstName;
+                            personDpo.LastName = tempPerson.LastName;
+                            personDpo.Birthday = tempPerson.Birthday;
+                            FindPerson finder = new FindPerson(personDpo.Id);
+                            List<Person> listPerson = ListPerson.ToList();
+                            Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
+                            p = p.CopyFromPersonDPO(personDpo);
+                        }
                     }
+                    catch { }
+
                 }, (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
             }
         }
@@ -169,13 +170,11 @@ namespace Workers.ViewModel
                 return deletePerson ??
                 (deletePerson = new RelayCommand(obj =>
                 {
-                    PersonDpo person = SelectedPersonDpo;
+                    PersonDPO person = SelectedPersonDpo;
                     MessageBoxResult result = MessageBox.Show("Удалить данные по сотруднику: \n" + person.LastName + " " + person.FirstName, "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.OK)
                     {
-                        // удаление данных в списке отображения данных
                         ListPersonDpo.Remove(person);
-                        // удаление данных в списке классов ListPerson<Person>
                         Person per = new Person();
                         per = per.CopyFromPersonDPO(person);
                         ListPerson.Remove(per);
@@ -184,11 +183,9 @@ namespace Workers.ViewModel
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName]
-        string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    } 
+    }
 }

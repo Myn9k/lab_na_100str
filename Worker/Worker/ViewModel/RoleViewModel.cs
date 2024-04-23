@@ -6,16 +6,23 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Worker.Model;
+using Worker.View;
+using Worker.ViewModel;
+using Worker.Helper;
 using System.Windows;
-using Workers.Helper;
-using Workers.Model;
-using Workers.View;
 
-namespace Workers.ViewModel
+namespace Worker.ViewModel
 {
     public class RoleViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// выбранная в списке должность
+        /// </summary>
         private Role selectedRole;
+        /// <summary>
+        /// выбранная в списке должность
+        /// </summary>
         public Role SelectedRole
         {
             get
@@ -29,8 +36,11 @@ namespace Workers.ViewModel
                 EditRole.CanExecute(true);
             }
         }
-        public ObservableCollection<Role> ListRole { get; set; } = new
-       ObservableCollection<Role>();
+        /// <summary>
+        /// коллекция должностей сотрудников
+        /// </summary>
+        public ObservableCollection<Role> ListRole { get; } = new ObservableCollection<Role>();
+
         public RoleViewModel()
         {
             this.ListRole.Add(new Role
@@ -48,7 +58,22 @@ namespace Workers.ViewModel
                 Id = 3,
                 NameRole = "Менеджер"
             });
+            // Установка начального значения для SelectedRole (первый элемент из списка)
+            if (ListRole.Count > 0)
+            {
+                SelectedRole = ListRole[0];
+            }
+
+            // Уведомление об изменении SelectedRole
+            OnPropertyChanged("SelectedRole");
+
+            // Установка начального значения для EditRole.CanExecute
+            EditRole.CanExecute(true);
         }
+        /// <summary>
+        /// Нахождение максимального Id в коллекции
+        /// </summary>
+        /// <returns></returns>
         public int MaxId()
         {
             int max = 0;
@@ -62,11 +87,12 @@ namespace Workers.ViewModel
             return max;
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName]
-        string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// команда добавления новой должности
         private RelayCommand addRole;
         public RelayCommand AddRole
         {
@@ -91,6 +117,7 @@ namespace Workers.ViewModel
                 }));
             }
         }
+
         private RelayCommand editRole;
         public RelayCommand EditRole
         {
@@ -100,7 +127,9 @@ namespace Workers.ViewModel
                 (editRole = new RelayCommand(obj =>
                 {
                     WindowNewRole wnRole = new WindowNewRole
-                    { Title = "Редактирование должности", };
+                    {
+                        Title = "Редактирование должности",
+                    };
                     Role role = SelectedRole;
                     Role tempRole = new Role();
                     tempRole = role.ShallowCopy();
@@ -113,6 +142,7 @@ namespace Workers.ViewModel
                 }, (obj) => SelectedRole != null && ListRole.Count > 0));
             }
         }
+
         private RelayCommand deleteRole;
         public RelayCommand DeleteRole
         {
@@ -122,7 +152,7 @@ namespace Workers.ViewModel
                 (deleteRole = new RelayCommand(obj =>
                 {
                     Role role = SelectedRole;
-                    MessageBoxResult result = MessageBox.Show("Удалить данные по должности: " + role.NameRole, "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    MessageBoxResult result = MessageBox.Show("Удалить данные по  должности: " + role.NameRole, "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.OK)
                     {
                         ListRole.Remove(role);
@@ -130,8 +160,6 @@ namespace Workers.ViewModel
                 }, (obj) => SelectedRole != null && ListRole.Count > 0));
             }
         }
-
-
     }
 }
 

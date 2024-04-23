@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,26 +11,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Workers.Helper;
-using Workers.Model;
-using Workers.ViewModel;
+using Worker.Helper;
+using Worker.Model;
+using Worker.ViewModel;
 
-namespace Workers.View
+namespace Worker
 {
+    /// <summary>
+    /// Логика взаимодействия для WindowNewEmployee.xaml
+    /// </summary>
     public partial class WindowNewEmployee : Window
-    { 
+    {
+        private RoleViewModel roleViewModel;
         public WindowNewEmployee()
         {
             InitializeComponent();
             CbRole.ItemsSource = new RoleViewModel().ListRole;
         }
+
         private void BtSave_Click(object sender, RoutedEventArgs e)
         {
-            if(CbRole.SelectedItem == null)
-            {
-                MessageBox.Show("Нужно выбрать роль!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
             DialogResult = true;
         }
     }

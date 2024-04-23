@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Workers.Helper;
-using Workers.ViewModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Hangfire.Annotations;
-namespace Workers.Model
+using Worker.Helper;
+using Worker.ViewModel;
+
+namespace Worker.Model
 {
     public class Person
     {
@@ -27,7 +25,7 @@ namespace Workers.Model
             this.LastName = lastName;
             this.Birthday = birthday;
         }
-        public Person CopyFromPersonDPO(PersonDpo p)
+        public Person CopyFromPersonDPO(PersonDPO p)
         {
             RoleViewModel vmRole = new RoleViewModel();
             int roleId = 0;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Workers
+namespace WpfApp1_Lab
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

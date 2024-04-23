@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Workers.Model;
+using Worker.Model;
 
-namespace Workers.Helper
+namespace Worker.Helper
 {
-    internal class FindRole
+    public class FindRole
     {
         int id;
         public FindRole(int id)
@@ -20,3 +20,4 @@ namespace Workers.Helper
         }
     }
 }
+

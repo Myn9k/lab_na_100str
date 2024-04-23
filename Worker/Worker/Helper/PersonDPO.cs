@@ -5,13 +5,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using Workers.Model;
-using Workers.ViewModel;
+using Worker.Model;
+using Worker.ViewModel;
 
-namespace Workers.Helper
+
+namespace Worker.Helper
 {
-    public class PersonDpo : INotifyPropertyChanged
+    public class PersonDPO : INotifyPropertyChanged
     {
         public int Id { get; set; }
         private string _roleName;
@@ -54,9 +54,8 @@ namespace Workers.Helper
                 OnPropertyChanged("Birthday");
             }
         }
-        public PersonDpo() { }
-        public PersonDpo(int id, string roleName, string firstName,
-       string lastName, DateTime birthday)
+        public PersonDPO() { }
+        public PersonDPO(int id, string roleName, string firstName, string lastName, DateTime birthday)
         {
             this.Id = id;
             this.RoleName = roleName;
@@ -64,13 +63,14 @@ namespace Workers.Helper
             this.LastName = lastName;
             this.Birthday = birthday;
         }
-        public PersonDpo ShallowCopy()
+        public PersonDPO ShallowCopy()
         {
-            return (PersonDpo)this.MemberwiseClone();
+            return (PersonDPO)this.MemberwiseClone();
         }
-        public PersonDpo CopyFromPerson(Person person)
+
+        public PersonDPO CopyFromPerson(Person person)
         {
-            PersonDpo perDpo = new PersonDpo();
+            PersonDPO perDpo = new PersonDPO();
             RoleViewModel vmRole = new RoleViewModel();
             string role = string.Empty;
             foreach (var r in vmRole.ListRole)
@@ -92,12 +92,9 @@ namespace Workers.Helper
             return perDpo;
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName]
-        string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
-

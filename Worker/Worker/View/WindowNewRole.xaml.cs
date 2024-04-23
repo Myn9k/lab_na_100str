@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Workers.View
+namespace Worker
 {
     /// <summary>
     /// Логика взаимодействия для WindowNewRole.xaml
     /// </summary>
     public partial class WindowNewRole : Window
     {
+
         public WindowNewRole()
         {
             InitializeComponent();
@@ -26,7 +27,6 @@ namespace Workers.View
 
         private void BtSave_Click(object sender, RoutedEventArgs e)
         {
-
             DialogResult = true;
         }
     }
