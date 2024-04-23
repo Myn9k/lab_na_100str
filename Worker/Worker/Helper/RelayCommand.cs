@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Workers.Model;
+using Workers.View;
+using Workers.Model;
 
 namespace Workers.Helper
 {
-    public class RelayCommand : ICommand 
-{
+    public class RelayCommand : ICommand
+    {
         private Action<object> execute;
         private Func<object, bool> canExecute;
         public event EventHandler CanExecuteChanged

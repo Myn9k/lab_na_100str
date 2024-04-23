@@ -103,3 +103,5 @@ C:\Users\ыыыы\source\repos\lab_na_100str-main\Worker\Worker\obj\Debug\Worker
 C:\Users\ыыыы\source\repos\lab_na_100str-main\Worker\Worker\obj\Debug\Worker.csproj.CopyComplete
 C:\Users\ыыыы\source\repos\lab_na_100str-main\Worker\Worker\obj\Debug\Workers.exe
 C:\Users\ыыыы\source\repos\lab_na_100str-main\Worker\Worker\obj\Debug\Workers.pdb
+C:\Users\ыыыы\source\repos\lab_na_100str-main\Worker\Worker\bin\Debug\JetBrains.Annotations.dll
+C:\Users\ыыыы\source\repos\lab_na_100str-main\Worker\Worker\bin\Debug\JetBrains.Annotations.xml
