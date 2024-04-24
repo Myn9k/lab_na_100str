@@ -47,6 +47,5 @@ namespace Worker.Model
             }
             return this;
         }
-
     }
 }
