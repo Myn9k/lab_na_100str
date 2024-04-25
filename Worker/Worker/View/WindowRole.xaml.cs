@@ -20,9 +20,6 @@ using Worker.ViewModel;
 
 namespace Worker.View
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowRole.xaml
-    /// </summary>
     public partial class WindowRole : Window
     {   
         RoleViewModel vmRole;

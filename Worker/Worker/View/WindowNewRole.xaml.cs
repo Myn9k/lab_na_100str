@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace Worker
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowNewRole.xaml
-    /// </summary>
     public partial class WindowNewRole : Window
     {
 

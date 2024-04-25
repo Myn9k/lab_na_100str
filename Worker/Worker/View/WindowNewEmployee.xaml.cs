@@ -16,13 +16,9 @@ using Worker.Model;
 using Worker.ViewModel;
 
 namespace Worker
-{
-    /// <summary>
-    /// Логика взаимодействия для WindowNewEmployee.xaml
-    /// </summary>
+{ 
     public partial class WindowNewEmployee : Window
     {
-        private RoleViewModel roleViewModel;
         public WindowNewEmployee()
         {
             InitializeComponent();

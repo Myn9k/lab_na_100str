@@ -16,9 +16,6 @@ using Worker.View;
 
 namespace Worker
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public static int IdEmployee { get; set; }

@@ -8,17 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WpfApp1_Lab.Properties
+namespace Worker.Properties
 {
-
-
-    /// <summary>
-    ///   Класс ресурсов со строгим типом для поиска локализованных строк и пр.
-    /// </summary>
-    // Этот класс был автоматически создан при помощи StronglyTypedResourceBuilder
-    // класс с помощью таких средств, как ResGen или Visual Studio.
-    // Для добавления или удаления члена измените файл .ResX, а затем перезапустите ResGen
-    // с параметром /str или заново постройте свой VS-проект.
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -33,10 +24,6 @@ namespace WpfApp1_Lab.Properties
         internal Resources()
         {
         }
-
-        /// <summary>
-        ///   Возврат кэшированного экземпляра ResourceManager, используемого этим классом.
-        /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager
         {
@@ -50,11 +37,6 @@ namespace WpfApp1_Lab.Properties
                 return resourceMan;
             }
         }
-
-        /// <summary>
-        ///   Переопределяет свойство CurrentUICulture текущего потока для всех
-        ///   подстановки ресурсов с помощью этого класса ресурсов со строгим типом.
-        /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture
         {

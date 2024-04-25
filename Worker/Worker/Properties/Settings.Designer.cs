@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WpfApp1_Lab.Properties
+namespace Worker.Properties
 {
 
 
